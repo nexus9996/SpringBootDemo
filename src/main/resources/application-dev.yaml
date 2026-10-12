@@ -1,0 +1,31 @@
+# ─────────────────────────────────────────────────────────────
+# 开发环境：H2 内存库（PostgreSQL 兼容模式），零外部依赖即可启动
+# ─────────────────────────────────────────────────────────────
+spring:
+  datasource:
+    url: jdbc:h2:mem:demo;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+logging:
+  level:
+    com.example.demo: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+demo:
+  security:
+    jwt:
+      # 留空即由进程在启动时生成随机密钥（不落盘、不进仓库）；需要固定密钥时注入 JWT_SECRET
+      secret: ${JWT_SECRET:}
+    allow-h2-console: true
+    allow-registration: true
+  seed:
+    enabled: true                       # 创建 admin/admin12345 与 demo/demo12345（仅本地）
